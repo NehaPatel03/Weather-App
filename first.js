@@ -33,7 +33,6 @@ document.getElementById('search-btn').addEventListener('click', function () {
             document.getElementById('humidity').innerHTML = `<i class="fa-solid fa-water"></i>  ${data.main.humidity}%`;
             document.getElementById('wind').innerHTML = `<i class="fa-solid fa-wind"></i>  ${data.wind.speed}km/h`;
 
-            // Map weather condition to Font Awesome icons
             const weatherCondition = data.weather[0].main.toLowerCase();
             const weatherIcon = document.getElementById('weather-icon');
             weatherIcon.className = 'weather-icon';
@@ -68,29 +67,24 @@ document.getElementById('search-btn').addEventListener('click', function () {
             }
             const lat = data.coord.lat;
             const lon = data.coord.lon;
-
-            // Step 1: Clear the existing map if it exists
             const mapContainer = document.getElementById('map');
             mapContainer.style.display = "block";
 
-            // If map instance exists, remove it
+
             if (map) {
-                map.remove(); // Removes the Leaflet map instance
-                map = null; // Reset map variable to null
+                map.remove(); 
+                map = null; 
             }
 
-            // Step 2: Completely reset the map container's HTML
-            mapContainer.innerHTML = ''; // Clear all child elements
+            mapContainer.innerHTML = ''; 
 
-            // Step 3: Create a new map instance from scratch
             map = L.map(mapContainer).setView([lat, lon], 10);
 
-            // Step 4: Add OpenStreetMap tiles to the map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Step 5: Add a marker for the new location
+            
             L.marker([lat, lon]).addTo(map)
                 .bindPopup(`<b>${data.name}</b><br>${data.weather[0].description}`)
                 .openPopup();
